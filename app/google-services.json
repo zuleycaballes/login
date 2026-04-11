@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1031863781111",
+    "project_id": "usuarios-4a748",
+    "storage_bucket": "usuarios-4a748.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031863781111:android:df81b87e9997e3444c75f2",
+        "android_client_info": {
+          "package_name": "soto.zuleyca.login"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS-8lJkLMHA9xYn-2ciQiqEIdbmC9Tci0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
