@@ -74,7 +74,6 @@ fun Registrarse(auth:FirebaseAuth, database: DatabaseReference, modifier: Modifi
     var contra by remember { mutableStateOf("") }
     var confirmar by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf("") }
-    var edad by remember { mutableStateOf("") }
 
     var nombreError by rememberSaveable { mutableStateOf(false) }
     var correoError by rememberSaveable { mutableStateOf(false) }
@@ -107,6 +106,28 @@ fun Registrarse(auth:FirebaseAuth, database: DatabaseReference, modifier: Modifi
         }
 
         return edad >= 18
+    }
+
+    fun calcularEdad(fecha: String): Int {
+        val partes = fecha.split("/")
+
+        val dia = partes[0].toInt()
+        val mes = partes[1].toInt()
+        val anio = partes[2].toInt()
+
+        val hoy = Calendar.getInstance()
+
+        val anioActual = hoy.get(Calendar.YEAR)
+        val mesActual = hoy.get(Calendar.MONTH) + 1
+        val diaActual = hoy.get(Calendar.DAY_OF_MONTH)
+
+        var edad = anioActual - anio
+
+        if (mesActual < mes || (mesActual == mes && diaActual < dia)) {
+            edad = edad - 1
+        }
+
+        return edad
     }
 
     Column(
@@ -221,8 +242,10 @@ fun Registrarse(auth:FirebaseAuth, database: DatabaseReference, modifier: Modifi
             auth.createUserWithEmailAndPassword(correo, contra)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        var userID = auth.currentUser?.uid ?: "anonimo"
-                        var usuario = Usuario(nombre, correo,fecha, edad)
+                        val userID = auth.currentUser?.uid ?: "anonimo"
+                        val edadCalculada = calcularEdad(fecha)
+
+                        val usuario = Usuario(nombre, correo, fecha, edadCalculada.toString())
 
                         database.child("usuarios").child(userID).setValue(usuario)
 
